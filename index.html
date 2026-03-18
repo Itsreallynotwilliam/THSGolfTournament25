@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>25th Annual THS Golf Tournament – Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --maroon:       #6b1a2a;
+      --maroon-dark:  #4a1020;
+      --maroon-light: #f5eaed;
+      --gray-dark:    #3a3a3a;
+      --gray-mid:     #6e6e6e;
+      --gray-light:   #f0f0f0;
+      --gray-border:  #d0cece;
+      --white:        #ffffff;
+      --ink:          #1e1e1e;
+      --muted:        #5f5f5f;
+      --radius:       4px;
+    }
+
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: var(--gray-light);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .page { max-width: 780px; margin: 0 auto; }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      border-top: 6px solid var(--maroon);
+      border-bottom: 2px solid var(--gray-border);
+      padding: 2.5rem 2rem 2rem;
+      background: var(--white);
+    }
+    .header .badge {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--white); background: var(--maroon);
+      padding: 0.3rem 1.1rem; margin-bottom: 1.2rem;
+    }
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 700;
+      color: var(--maroon-dark); line-height: 1.25; margin-bottom: 0.5rem;
+    }
+    .header .subtitle { font-size: 1rem; color: var(--muted); font-style: italic; }
+    .header .meta {
+      margin-top: 1.3rem; display: flex;
+      justify-content: center; gap: 2.5rem; flex-wrap: wrap;
+    }
+    .header .meta-item {
+      font-size: 0.78rem; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--maroon); font-weight: 700;
+    }
+    .header .meta-item span {
+      display: block; font-size: 0.98rem; text-transform: none;
+      font-weight: 400; color: var(--ink); letter-spacing: 0; margin-top: 0.15rem;
+    }
+
+    /* ── Notice ── */
+    .notice {
+      background: var(--maroon-light); border-left: 4px solid var(--maroon);
+      padding: 0.85rem 1.2rem; font-size: 0.9rem; color: var(--ink);
+    }
+    .notice strong { color: var(--maroon-dark); }
+
+    /* ── Form card ── */
+    .form-card {
+      background: var(--white); border: 1px solid var(--gray-border);
+      padding: 2.5rem; margin-top: 0;
+    }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 2.8rem; }
+    .section:last-of-type { margin-bottom: 0; }
+
+    .section-header {
+      display: flex; align-items: center; gap: 0.8rem;
+      margin-bottom: 1.5rem; padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--maroon-light);
+    }
+    .section-number {
+      flex-shrink: 0; width: 32px; height: 32px;
+      background: var(--maroon); color: var(--white); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 700;
+    }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; color: var(--maroon-dark); }
+    .section-note { font-size: 0.82rem; color: var(--muted); font-style: italic; margin-top: 0.2rem; }
+
+    /* ── Field grid ── */
+    .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem 1.5rem; }
+    .field-grid .full { grid-column: 1 / -1; }
+
+    /* ── Fields ── */
+    .field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .field label { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); }
+    .field label .req { color: var(--maroon); margin-left: 2px; }
+    .field input[type="text"],
+    .field input[type="email"],
+    .field input[type="tel"],
+    .field input[type="number"],
+    .field select,
+    .field textarea {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 0.95rem; color: var(--ink); background: var(--gray-light);
+      border: 1px solid var(--gray-border); border-radius: var(--radius);
+      padding: 0.6rem 0.85rem; width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s; appearance: none;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none; border-color: var(--maroon);
+      box-shadow: 0 0 0 3px rgba(107,26,42,0.12); background: var(--white);
+    }
+    .field textarea { resize: vertical; min-height: 80px; }
+    .field .hint { font-size: 0.78rem; color: var(--muted); font-style: italic; }
+
+    /* ── Radio / Checkbox groups ── */
+    .radio-group, .checkbox-group { display: flex; flex-direction: column; gap: 0.55rem; margin-top: 0.2rem; }
+    .radio-group label, .checkbox-group label {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      font-size: 0.92rem; font-weight: 400; letter-spacing: 0; text-transform: none;
+      color: var(--ink); cursor: pointer; line-height: 1.4;
+    }
+    .radio-group input[type="radio"], .checkbox-group input[type="checkbox"] {
+      flex-shrink: 0; margin-top: 2px; accent-color: var(--maroon); width: 16px; height: 16px;
+    }
+    .radio-group .price-tag { font-weight: 600; color: var(--maroon-dark); }
+
+    /* ── Shirt sizes ── */
+    .size-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .size-row input[type="radio"] { display: none; }
+    .size-btn {
+      display: inline-block; border: 1px solid var(--gray-border);
+      border-radius: var(--radius); padding: 0.45rem 1rem;
+      font-size: 0.88rem; font-weight: 600; color: var(--muted);
+      cursor: pointer; transition: all 0.15s; background: var(--gray-light);
+    }
+    .size-row input[type="radio"]:checked + .size-btn { background: var(--maroon); color: var(--white); border-color: var(--maroon); }
+    .size-btn:hover { border-color: var(--maroon); color: var(--maroon); }
+
+    /* ── Skip toggle ── */
+    .skip-notice {
+      background: var(--gray-light); border: 1px dashed var(--gray-mid);
+      border-radius: var(--radius); padding: 0.75rem 1rem;
+      font-size: 0.88rem; color: var(--gray-dark); margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 0.6rem; cursor: pointer;
+    }
+    .skip-notice input[type="checkbox"] { accent-color: var(--maroon); width: 16px; height: 16px; }
+
+    /* ── Payment info ── */
+    .payment-info {
+      background: var(--gray-light); border: 1px solid var(--gray-border);
+      border-radius: var(--radius); padding: 1rem 1.2rem;
+      font-size: 0.88rem; color: var(--ink); margin-top: 1rem; line-height: 1.7;
+    }
+    .payment-info strong { color: var(--maroon-dark); }
+    .payment-info a { color: var(--maroon); }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--gray-border); margin: 2rem 0; }
+
+    /* ── Submit ── */
+    .form-footer { margin-top: 2.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .btn-submit {
+      background: var(--maroon); color: var(--white);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 1rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      border: none; border-radius: var(--radius); padding: 0.9rem 3rem;
+      cursor: pointer; transition: background 0.2s, transform 0.1s;
+    }
+    .btn-submit:hover { background: var(--maroon-dark); transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .form-footer .fine-print { font-size: 0.78rem; color: var(--muted); font-style: italic; text-align: center; }
+
+    /* ── Sponsor table ── */
+    .sponsor-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 0.5rem; }
+    .sponsor-table th {
+      background: var(--maroon); color: var(--white); text-align: left;
+      padding: 0.6rem 0.8rem; font-size: 0.75rem; letter-spacing: 0.07em; text-transform: uppercase;
+    }
+    .sponsor-table td { padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--gray-border); vertical-align: top; }
+    .sponsor-table tr:nth-child(even) td { background: var(--gray-light); }
+    .sponsor-table .amount { font-weight: 700; color: var(--maroon-dark); white-space: nowrap; }
+
+    /* ── Foursome ── */
+    .foursome-toggle {
+      display: flex; align-items: center; gap: 0.75rem;
+      background: var(--maroon-light); border: 1px solid var(--maroon);
+      border-radius: var(--radius); padding: 0.9rem 1.1rem;
+      margin-bottom: 1.4rem; cursor: pointer; font-size: 0.92rem; color: var(--ink);
+    }
+    .foursome-toggle input[type="checkbox"] { accent-color: var(--maroon); width: 17px; height: 17px; flex-shrink: 0; }
+    .foursome-toggle strong { color: var(--maroon-dark); }
+    .foursome-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .player-card { border: 1px solid var(--gray-border); border-radius: var(--radius); overflow: hidden; }
+    .player-card-header {
+      background: var(--maroon); color: var(--white);
+      display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 0.9rem;
+    }
+    .player-card-header .player-icon {
+      width: 26px; height: 26px; background: var(--white); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 0.85rem; font-weight: 700;
+      color: var(--maroon); flex-shrink: 0;
+    }
+    .player-card-header .player-label { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 600; }
+    .player-card-header .player-label small { display: block; font-family: 'Source Serif 4', serif; font-size: 0.72rem; font-weight: 400; opacity: 0.8; font-style: italic; }
+    .player-card-body { padding: 1rem; background: var(--gray-light); display: flex; flex-direction: column; gap: 0.8rem; }
+    .player-card-body .field label { font-size: 0.75rem; }
+    .player-card .size-row { flex-wrap: wrap; gap: 0.3rem; }
+    .player-card .size-btn { padding: 0.3rem 0.65rem; font-size: 0.78rem; }
+    .player-card select {
+      font-family: 'Source Serif 4', Georgia, serif; font-size: 0.88rem; color: var(--ink);
+      background: var(--white); border: 1px solid var(--gray-border); border-radius: var(--radius);
+      padding: 0.5rem 0.75rem; width: 100%; appearance: none; cursor: pointer;
+    }
+    .player-card select:focus { outline: none; border-color: var(--maroon); box-shadow: 0 0 0 3px rgba(107,26,42,0.12); }
+    .foursome-total {
+      background: var(--maroon-light); border: 1px solid var(--maroon); border-radius: var(--radius);
+      padding: 1rem 1.2rem; display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;
+    }
+    .foursome-total .total-label { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--maroon-dark); font-weight: 600; }
+    .foursome-total .total-amount { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--maroon); }
+    .foursome-total .total-note { font-size: 0.78rem; color: var(--muted); font-style: italic; width: 100%; }
+    .package-toggle { display: flex; gap: 0.6rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .pkg-btn {
+      flex: 1; min-width: 180px; border: 2px solid var(--gray-border);
+      border-radius: var(--radius); padding: 0.75rem 1rem; cursor: pointer;
+      background: var(--gray-light); text-align: left; transition: all 0.15s; font-family: 'Source Serif 4', serif;
+    }
+    .pkg-btn input[type="radio"] { display: none; }
+    .pkg-btn .pkg-price { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--maroon-dark); display: block; }
+    .pkg-btn .pkg-name { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+    .pkg-btn .pkg-desc { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 0.2rem; }
+    .pkg-btn.selected { border-color: var(--maroon); background: var(--white); box-shadow: 0 0 0 3px rgba(107,26,42,0.12); }
+    .pkg-btn.selected .pkg-name { color: var(--maroon-dark); }
+
+    /* ── Team Member Credit ── */
+    .credit-banner {
+      background: var(--maroon); border-radius: var(--radius);
+      padding: 1.1rem 1.3rem; display: flex; align-items: flex-start;
+      gap: 1rem; margin-bottom: 1.4rem;
+    }
+    .credit-banner-icon { font-size: 1.8rem; flex-shrink: 0; line-height: 1; }
+    .credit-banner-text { color: var(--white); }
+    .credit-banner-text strong { display: block; font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 0.25rem; }
+    .credit-banner-text p { font-size: 0.85rem; opacity: 0.9; line-height: 1.5; }
+
+    .credit-has-referral {
+      display: flex; align-items: center; gap: 0.7rem;
+      background: var(--gray-light); border: 1px dashed var(--gray-border);
+      border-radius: var(--radius); padding: 0.8rem 1rem;
+      margin-bottom: 1.2rem; cursor: pointer; font-size: 0.9rem; color: var(--ink);
+    }
+    .credit-has-referral input[type="checkbox"] { accent-color: var(--maroon); width: 16px; height: 16px; flex-shrink: 0; }
+
+    .credit-fields { display: none; }
+    .credit-fields.visible { display: block; }
+
+    .credit-card { border: 1px solid var(--gray-border); border-radius: var(--radius); overflow: hidden; margin-bottom: 0.8rem; }
+    .credit-card-header {
+      background: var(--gray-dark); color: var(--white);
+      padding: 0.7rem 1rem; font-family: 'Playfair Display', serif;
+      font-size: 0.95rem; font-weight: 600;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .credit-card-header .credit-num {
+      width: 24px; height: 24px; background: var(--maroon); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem; font-weight: 700; flex-shrink: 0;
+    }
+    .credit-card-body { background: var(--gray-light); padding: 1.1rem; }
+    .credit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .credit-grid .full { grid-column: 1 / -1; }
+
+    .add-credit-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.4rem;
+      background: none; border: 1px dashed var(--maroon); border-radius: var(--radius);
+      padding: 0.5rem 1rem; color: var(--maroon); font-family: 'Source Serif 4', serif;
+      font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: background 0.15s;
+    }
+    .add-credit-btn:hover { background: var(--maroon-light); }
+
+    .credit-impact {
+      background: var(--maroon-light); border-left: 3px solid var(--maroon);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 0.75rem 1rem; font-size: 0.85rem;
+      color: var(--maroon-dark); line-height: 1.6; margin-top: 1rem;
+    }
+    .credit-impact strong { font-weight: 700; }
+
+    @media (max-width: 580px) {
+      .foursome-grid, .credit-grid, .field-grid { grid-template-columns: 1fr; }
+      .form-card { padding: 1.5rem 1.2rem; }
+      .header { padding: 1.8rem 1.2rem 1.5rem; }
+      .header h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Header ── -->
+  <div class="header">
+    <div class="badge">Official Registration Form</div>
+    <h1>25th Annual Torrance HS<br>Golf Programs Tournament</h1>
+    <p class="subtitle">A Fundraiser Benefiting Torrance High School Golf Programs</p>
+    <div class="meta">
+      <div class="meta-item">Tournament Date <span>July 14, 2025</span></div>
+      <div class="meta-item">Venue <span>Los Verdes Golf Course</span></div>
+      <div class="meta-item">Registration Deadline <span>Monday, June 9, 2025</span></div>
+    </div>
+  </div>
+
+  <div class="notice">
+    <strong>Space is limited — reserve your spot today.</strong> Tee times will stretch from mid-morning into the early afternoon.
+    If registering additional golfers, please submit a <strong>separate form entry</strong> for each player's contact info, lunch order, and shirt size.
+  </div>
+
+  <div class="form-card">
+  <form id="registrationForm" novalidate>
+
+    <!-- ══ Section 1: Contact Information ══ -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">1</div>
+        <div>
+          <div class="section-title">Your Contact Information</div>
+          <div class="section-note">Required for all registrants</div>
+        </div>
+      </div>
+      <div class="field-grid">
+        <div class="field full">
+          <label for="email">Email Address <span class="req">*</span></label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required />
+        </div>
+        <div class="field full">
+          <label for="name">Your Full Name</label>
+          <input type="text" id="name" name="name" placeholder="First and Last Name" />
+        </div>
+        <div class="field full">
+          <label for="updateEmail">Email for Tournament Updates &amp; Information</label>
+          <input type="email" id="updateEmail" name="updateEmail" placeholder="Same as above, or a different address" />
+        </div>
+        <div class="field">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="(310) 555-0100" />
+          <span class="hint">May be used for texts with tournament updates</span>
+        </div>
+        <div class="field">
+          <label for="address">Street Address</label>
+          <input type="text" id="address" name="address" placeholder="For potential mail or prize delivery" />
+        </div>
+        <div class="field full">
+          <label for="citystatezip">City, State &amp; ZIP Code</label>
+          <input type="text" id="citystatezip" name="citystatezip" placeholder="e.g. Torrance, CA 90501" />
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider"/>
+
+    <!-- ══ Section 2: Team Member Credit ══ -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">2</div>
+        <div>
+          <div class="section-title">Credit a THS Golf Team Member</div>
+          <div class="section-note">Were you referred by a student on the Torrance golf team?</div>
+        </div>
+      </div>
+
+      <div class="credit-banner">
+        <div class="credit-banner-icon">🏌️</div>
+        <div class="credit-banner-text">
+          <strong>Support a Student — Give Them Credit!</strong>
+          <p>If a Torrance High School golf team member personally reached out to you about this tournament, please recognize them here. Their efforts directly support the golf program and are tracked by the coaching staff.</p>
+        </div>
+      </div>
+
+      <label class="credit-has-referral">
+        <input type="checkbox" id="hasReferral" onchange="toggleCreditFields(this)" />
+        Yes — a THS golf team member referred me or reached out to me about this tournament
+      </label>
+
+      <div class="credit-fields" id="creditFields">
+        <div id="creditCardsContainer"></div>
+        <button type="button" class="add-credit-btn" id="addCreditBtn" onclick="addCreditCard()">
+          + Credit another team member
+        </button>
+        <div class="credit-impact">
+          <strong>Why this matters:</strong> Every referral is logged and shared with the THS golf coaching staff. Students who actively recruit participants earn recognition within the program — your acknowledgment makes a real difference!
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider"/>
+
+    <!-- ══ Section 3: Golfer Registration ══ -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">3</div>
+        <div>
+          <div class="section-title">Golfer Registration</div>
+          <div class="section-note">Complete this section only if you are playing in the tournament. Otherwise, skip to Section 4.</div>
+        </div>
+      </div>
+
+      <label class="skip-notice">
+        <input type="checkbox" id="skipGolfer" onchange="toggleGolferSection(this)"/>
+        I am <strong>&nbsp;not&nbsp;</strong> registering to play golf — skip to Sponsor / Donation section
+      </label>
+
+      <div id="golferSection">
+        <div class="field-grid">
+          <div class="field">
+            <label for="handicap">Handicap</label>
+            <input type="text" id="handicap" name="handicap" placeholder='e.g. 12, or "No handicap"' />
+          </div>
+          <div class="field">
+            <label for="avgScore">Average 18-Hole Score</label>
+            <input type="number" id="avgScore" name="avgScore" placeholder="Only if no official handicap" min="50" max="200"/>
+          </div>
+          <div class="field full">
+            <label for="partners">Playing Partners &amp; Their Handicaps / Avg. Scores</label>
+            <textarea id="partners" name="partners" rows="3" placeholder="List names and handicaps of others in your group, any groups you know, or any comments / concerns."></textarea>
+            <span class="hint">Please submit a separate form entry for each additional golfer's contact info, lunch, and shirt size.</span>
+          </div>
+          <div class="field">
+            <label>Lunch Sandwich Selection</label>
+            <div class="radio-group">
+              <label><input type="radio" name="lunch" value="Ham" /> Ham</label>
+              <label><input type="radio" name="lunch" value="Turkey" /> Turkey</label>
+              <label><input type="radio" name="lunch" value="Veggie" /> Veggie</label>
+              <label><input type="radio" name="lunch" value="Other" /> Other (describe in comments)</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>T-Shirt Size</label>
+            <div class="size-row" style="margin-top:0.4rem;">
+              <input type="radio" name="shirt" id="sz-s" value="S"/><label class="size-btn" for="sz-s">S</label>
+              <input type="radio" name="shirt" id="sz-m" value="M"/><label class="size-btn" for="sz-m">M</label>
+              <input type="radio" name="shirt" id="sz-l" value="L"/><label class="size-btn" for="sz-l">L</label>
+              <input type="radio" name="shirt" id="sz-xl" value="XL"/><label class="size-btn" for="sz-xl">XL</label>
+              <input type="radio" name="shirt" id="sz-xxl" value="XXL"/><label class="size-btn" for="sz-xxl">XXL</label>
+            </div>
+          </div>
+          <div class="field full">
+            <label for="dietary">Allergy or Dietary Concerns</label>
+            <textarea id="dietary" name="dietary" rows="2" placeholder="We will do our best to work with Los Verdes catering, though we cannot guarantee all requests can be accommodated."></textarea>
+          </div>
+          <div class="field full">
+            <label>Form of Payment</label>
+            <div class="radio-group">
+              <label><input type="radio" name="payment" value="online_150"/><span>Paid online via THS Webstore &mdash; <span class="price-tag">$150 Entry Fee</span></span></label>
+              <label><input type="radio" name="payment" value="online_165"/><span>Paid online via THS Webstore &mdash; <span class="price-tag">$165 Entry + Supersticker Package</span></span></label>
+              <label><input type="radio" name="payment" value="check"/><span>Will pay by check (payable to <em>"Torrance High"</em>, memo: <em>"Golf Tournament"</em>) by June 9th</span></label>
+              <label><input type="radio" name="payment" value="sponsored"/><span>My entry fee was paid by a friend or company (please describe below)</span></label>
+              <label><input type="radio" name="payment" value="sponsor_donation"/><span>Donating as a sponsor (enter sponsorship level in Section 4)</span></label>
+            </div>
+            <div class="payment-info">
+              <strong>Online Payment:</strong> Visit the
+              <a href="https://torrancehighschool.myschoolcentral.com/(S(mzxjzy322efli13ieixhidlx))/Index.aspx#/2/148" target="_blank" rel="noopener">THS Webstore</a>
+              (a service fee applies). Alternatively go to <strong>ths.tusd.org</strong> → THS Webstore → Categories → "THS Golf Tournament 7/14/25".<br/><br/>
+              <strong>Mail a check to:</strong><br/>
+              Torrance High School, Attn: Golf Tournament<br/>
+              2200 W. Carson St., Torrance, CA 90501<br/>
+              Payable to <em>"Torrance High"</em> — write <em>"Golf Tournament"</em> in the memo line.
+            </div>
+          </div>
+          <div class="field full">
+            <label for="paymentComments">Payment Comments</label>
+            <textarea id="paymentComments" name="paymentComments" rows="2" placeholder="If someone else or a company is paying your entry, or for any other payment notes — we want to know who to thank!"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider"/>
+
+    <!-- ══ Section 3b: Full Foursome Registration ══ -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">3b</div>
+        <div>
+          <div class="section-title">Register Your Full Foursome</div>
+          <div class="section-note">Optional — register all 4 players at once instead of submitting separate forms</div>
+        </div>
+      </div>
+
+      <label class="foursome-toggle">
+        <input type="checkbox" id="enableFoursome" onchange="toggleFoursomeSection(this)"/>
+        <span>I want to register <strong>all 4 players</strong> in my group right now</span>
+      </label>
+
+      <div id="foursomeSection" style="display:none;">
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.8rem;font-style:italic;">Select a package for all four players — pricing applies per golfer:</p>
+        <div class="package-toggle">
+          <label class="pkg-btn" id="pkg150" onclick="selectPackage('150')">
+            <input type="radio" name="foursomePackage" value="150"/>
+            <span class="pkg-name">Standard Entry</span>
+            <span class="pkg-price">$150 <span style="font-size:0.7rem;font-weight:400;">/ player</span></span>
+            <span class="pkg-desc">Entry fee only</span>
+          </label>
+          <label class="pkg-btn" id="pkg165" onclick="selectPackage('165')">
+            <input type="radio" name="foursomePackage" value="165"/>
+            <span class="pkg-name">Entry + Supersticker</span>
+            <span class="pkg-price">$165 <span style="font-size:0.7rem;font-weight:400;">/ player</span></span>
+            <span class="pkg-desc">Entry fee + supersticker package</span>
+          </label>
+        </div>
+
+        <div class="foursome-grid">
+          <div class="player-card">
+            <div class="player-card-header">
+              <div class="player-icon">1</div>
+              <div class="player-label">Player 1 <small>You (from Sections 1 &amp; 3)</small></div>
+            </div>
+            <div class="player-card-body" style="font-size:0.82rem;color:var(--muted);font-style:italic;padding:0.9rem 1rem;">
+              Your details (name, contact, handicap, lunch, shirt, dietary) are captured in Sections 1 &amp; 3 above.
+            </div>
+          </div>
+
+          <!-- Player 2 -->
+          <div class="player-card">
+            <div class="player-card-header"><div class="player-icon">2</div><div class="player-label">Player 2</div></div>
+            <div class="player-card-body">
+              <div class="field"><label for="p2name">Full Name</label><input type="text" id="p2name" name="p2name" placeholder="First and Last Name"/></div>
+              <div class="field"><label for="p2email">Email</label><input type="email" id="p2email" name="p2email" placeholder="player2@example.com"/></div>
+              <div class="field"><label for="p2phone">Phone</label><input type="tel" id="p2phone" name="p2phone" placeholder="(310) 555-0101"/></div>
+              <div class="field"><label for="p2handicap">Handicap / Avg. Score</label><input type="text" id="p2handicap" name="p2handicap" placeholder='e.g. 14 or "No handicap"'/></div>
+              <div class="field"><label for="p2lunch">Lunch</label>
+                <select id="p2lunch" name="p2lunch"><option value="">— Select —</option><option>Ham</option><option>Turkey</option><option>Veggie</option><option>Other</option></select>
+              </div>
+              <div class="field"><label>Shirt Size</label>
+                <div class="size-row" style="margin-top:0.3rem;">
+                  <input type="radio" name="p2shirt" id="p2sz-s" value="S"/><label class="size-btn" for="p2sz-s">S</label>
+                  <input type="radio" name="p2shirt" id="p2sz-m" value="M"/><label class="size-btn" for="p2sz-m">M</label>
+                  <input type="radio" name="p2shirt" id="p2sz-l" value="L"/><label class="size-btn" for="p2sz-l">L</label>
+                  <input type="radio" name="p2shirt" id="p2sz-xl" value="XL"/><label class="size-btn" for="p2sz-xl">XL</label>
+                  <input type="radio" name="p2shirt" id="p2sz-xxl" value="XXL"/><label class="size-btn" for="p2sz-xxl">XXL</label>
+                </div>
+              </div>
+              <div class="field"><label for="p2dietary">Dietary</label><input type="text" id="p2dietary" name="p2dietary" placeholder="Allergies or restrictions (if any)"/></div>
+            </div>
+          </div>
+
+          <!-- Player 3 -->
+          <div class="player-card">
+            <div class="player-card-header"><div class="player-icon">3</div><div class="player-label">Player 3</div></div>
+            <div class="player-card-body">
+              <div class="field"><label for="p3name">Full Name</label><input type="text" id="p3name" name="p3name" placeholder="First and Last Name"/></div>
+              <div class="field"><label for="p3email">Email</label><input type="email" id="p3email" name="p3email" placeholder="player3@example.com"/></div>
+              <div class="field"><label for="p3phone">Phone</label><input type="tel" id="p3phone" name="p3phone" placeholder="(310) 555-0102"/></div>
+              <div class="field"><label for="p3handicap">Handicap / Avg. Score</label><input type="text" id="p3handicap" name="p3handicap" placeholder='e.g. 14 or "No handicap"'/></div>
+              <div class="field"><label for="p3lunch">Lunch</label>
+                <select id="p3lunch" name="p3lunch"><option value="">— Select —</option><option>Ham</option><option>Turkey</option><option>Veggie</option><option>Other</option></select>
+              </div>
+              <div class="field"><label>Shirt Size</label>
+                <div class="size-row" style="margin-top:0.3rem;">
+                  <input type="radio" name="p3shirt" id="p3sz-s" value="S"/><label class="size-btn" for="p3sz-s">S</label>
+                  <input type="radio" name="p3shirt" id="p3sz-m" value="M"/><label class="size-btn" for="p3sz-m">M</label>
+                  <input type="radio" name="p3shirt" id="p3sz-l" value="L"/><label class="size-btn" for="p3sz-l">L</label>
+                  <input type="radio" name="p3shirt" id="p3sz-xl" value="XL"/><label class="size-btn" for="p3sz-xl">XL</label>
+                  <input type="radio" name="p3shirt" id="p3sz-xxl" value="XXL"/><label class="size-btn" for="p3sz-xxl">XXL</label>
+                </div>
+              </div>
+              <div class="field"><label for="p3dietary">Dietary</label><input type="text" id="p3dietary" name="p3dietary" placeholder="Allergies or restrictions (if any)"/></div>
+            </div>
+          </div>
+
+          <!-- Player 4 -->
+          <div class="player-card">
+            <div class="player-card-header"><div class="player-icon">4</div><div class="player-label">Player 4</div></div>
+            <div class="player-card-body">
+              <div class="field"><label for="p4name">Full Name</label><input type="text" id="p4name" name="p4name" placeholder="First and Last Name"/></div>
+              <div class="field"><label for="p4email">Email</label><input type="email" id="p4email" name="p4email" placeholder="player4@example.com"/></div>
+              <div class="field"><label for="p4phone">Phone</label><input type="tel" id="p4phone" name="p4phone" placeholder="(310) 555-0103"/></div>
+              <div class="field"><label for="p4handicap">Handicap / Avg. Score</label><input type="text" id="p4handicap" name="p4handicap" placeholder='e.g. 14 or "No handicap"'/></div>
+              <div class="field"><label for="p4lunch">Lunch</label>
+                <select id="p4lunch" name="p4lunch"><option value="">— Select —</option><option>Ham</option><option>Turkey</option><option>Veggie</option><option>Other</option></select>
+              </div>
+              <div class="field"><label>Shirt Size</label>
+                <div class="size-row" style="margin-top:0.3rem;">
+                  <input type="radio" name="p4shirt" id="p4sz-s" value="S"/><label class="size-btn" for="p4sz-s">S</label>
+                  <input type="radio" name="p4shirt" id="p4sz-m" value="M"/><label class="size-btn" for="p4sz-m">M</label>
+                  <input type="radio" name="p4shirt" id="p4sz-l" value="L"/><label class="size-btn" for="p4sz-l">L</label>
+                  <input type="radio" name="p4shirt" id="p4sz-xl" value="XL"/><label class="size-btn" for="p4sz-xl">XL</label>
+                  <input type="radio" name="p4shirt" id="p4sz-xxl" value="XXL"/><label class="size-btn" for="p4sz-xxl">XXL</label>
+                </div>
+              </div>
+              <div class="field"><label for="p4dietary">Dietary</label><input type="text" id="p4dietary" name="p4dietary" placeholder="Allergies or restrictions (if any)"/></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="foursome-total">
+          <span class="total-label">Foursome Total</span>
+          <span class="total-amount" id="totalAmount">$600</span>
+          <span class="total-note">Select a package above to update total. Payment instructions are in Section 3.</span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider"/>
+
+    <!-- ══ Section 4: Sponsor or Donor ══ -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">4</div>
+        <div>
+          <div class="section-title">Sponsor or Donation</div>
+          <div class="section-note">All donors will be recognized in a letter given to golfers and on the tournament banner</div>
+        </div>
+      </div>
+
+      <table class="sponsor-table">
+        <thead><tr><th>Level</th><th>Amount</th><th>Benefits</th></tr></thead>
+        <tbody>
+          <tr><td><label><input type="radio" name="sponsorLevel" value="lunch_bell" /> Lunch Bell Sponsor</label></td><td class="amount">$2,000</td><td>2 foursomes, special banner, logo/name on every cart &amp; premier hole tee sign</td></tr>
+          <tr><td><label><input type="radio" name="sponsorLevel" value="cart" /> Golf Cart Sponsor</label></td><td class="amount">$1,000</td><td>1 foursome, logo/name on all golf carts, premier hole tee sign, banner recognition</td></tr>
+          <tr><td><label><input type="radio" name="sponsorLevel" value="tartar" /> Tartar Sponsor</label></td><td class="amount">$500</td><td>Twosome, premier hole tee sign, banner recognition</td></tr>
+          <tr><td><label><input type="radio" name="sponsorLevel" value="contest_hole" /> Contest Hole Sponsor</label></td><td class="amount">$200</td><td>Tee sign on a contest hole, banner recognition</td></tr>
+          <tr><td><label><input type="radio" name="sponsorLevel" value="tee" /> Tee Sponsor</label></td><td class="amount">$100</td><td>Tee sign at a golf hole, banner recognition</td></tr>
+          <tr><td><label><input type="radio" name="sponsorLevel" value="eagle" /> Eagle Sponsor</label></td><td class="amount">$50</td><td>Shared tee sign &amp; banner recognition</td></tr>
+          <tr><td><label><input type="radio" name="sponsorLevel" value="birdie" /> Birdie</label></td><td class="amount">$25</td><td>Banner recognition</td></tr>
+          <tr><td><label><input type="radio" name="sponsorLevel" value="prize" /> Prize Donation</label></td><td class="amount">—</td><td>Donated prizes for the silent auction</td></tr>
+          <tr><td><label><input type="radio" name="sponsorLevel" value="other_donation" /> Other Contribution</label></td><td class="amount">—</td><td>Any other monetary contribution (describe below)</td></tr>
+        </tbody>
+      </table>
+
+      <p style="font-size:0.8rem;color:var(--muted);font-style:italic;margin-top:0.6rem;">
+        For $50–$2,000 sponsorship levels, please send business cards or materials to be scanned for tee sponsor signs.
+      </p>
+
+      <div class="payment-info" style="margin-top:1rem;">
+        <strong>Sponsor Payment:</strong> Visit the
+        <a href="https://torrancehighschool.myschoolcentral.com/(S(f05ysgziy0ypc0uig2drgoih))/Index.aspx#/2/148" target="_blank" rel="noopener">THS Webstore</a>
+        (a service fee applies) or mail a check to the address listed above in Section 3.
+      </div>
+
+      <div class="field-grid" style="margin-top:1.2rem;">
+        <div class="field full">
+          <label for="sponsorName">Name or Company to Be Listed / Advertised</label>
+          <input type="text" id="sponsorName" name="sponsorName" placeholder="Exactly as you'd like it to appear on signage and the banner"/>
+        </div>
+        <div class="field full">
+          <label for="sponsorComments">Additional Comments, Prize Description, or Donation Details</label>
+          <textarea id="sponsorComments" name="sponsorComments" rows="3" placeholder="Describe your prize, provide any context, or leave any additional notes here."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Submit ── -->
+    <div class="form-footer">
+      <button type="submit" class="btn-submit">Submit Registration</button>
+      <p class="fine-print">
+        Please do not include passwords or sensitive personal information in this form.<br/>
+        This form was created for Torrance Unified School District.
+      </p>
+    </div>
+
+  </form>
+  </div>
+
+</div>
+
+<script>
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwEmq9Q2Ln2nuO3xMa1cY9w1BX5ReBD9yS3W8fuaKan5p88ZVQCNJxHj5cTAZxSwp9_Ow/exec';
+  let creditCount = 0;
+
+  function toggleCreditFields(checkbox) {
+    const fields = document.getElementById('creditFields');
+    fields.classList.toggle('visible', checkbox.checked);
+    if (checkbox.checked && creditCount === 0) addCreditCard();
+  }
+
+  function addCreditCard() {
+    creditCount++;
+    const container = document.getElementById('creditCardsContainer');
+    const card = document.createElement('div');
+    card.className = 'credit-card';
+    card.id = 'creditCard' + creditCount;
+    card.innerHTML = `
+      <div class="credit-card-header">
+        <div class="credit-num">${creditCount}</div>
+        Team Member Credit ${creditCount > 1 ? '#' + creditCount : ''}
+        ${creditCount > 1 ? `<button type="button" onclick="removeCreditCard(${creditCount})" style="margin-left:auto;background:none;border:none;color:rgba(255,255,255,0.7);cursor:pointer;font-size:1.2rem;line-height:1;padding:0;">✕</button>` : ''}
+      </div>
+      <div class="credit-card-body">
+        <div class="credit-grid">
+          <div class="field">
+            <label for="creditName${creditCount}">Team Member's Name</label>
+            <input type="text" id="creditName${creditCount}" name="creditName${creditCount}" placeholder="First and Last Name"/>
+          </div>
+          <div class="field">
+            <label for="creditYear${creditCount}">Grade / Year (if known)</label>
+            <input type="text" id="creditYear${creditCount}" name="creditYear${creditCount}" placeholder="e.g. Junior, Class of 2026"/>
+          </div>
+          <div class="field full">
+            <label for="creditNote${creditCount}">How did they contact you?</label>
+            <input type="text" id="creditNote${creditCount}" name="creditNote${creditCount}" placeholder="e.g. Personal outreach, social media, phone call, flyer…"/>
+          </div>
+        </div>
+      </div>`;
+    container.appendChild(card);
+    document.getElementById('addCreditBtn').style.display = creditCount >= 5 ? 'none' : 'inline-flex';
+  }
+
+  function removeCreditCard(id) {
+    const card = document.getElementById('creditCard' + id);
+    if (card) { card.remove(); creditCount--; }
+    document.getElementById('addCreditBtn').style.display = 'inline-flex';
+  }
+
+  function toggleGolferSection(checkbox) {
+    document.getElementById('golferSection').style.display = checkbox.checked ? 'none' : 'block';
+  }
+
+  function toggleFoursomeSection(checkbox) {
+    document.getElementById('foursomeSection').style.display = checkbox.checked ? 'block' : 'none';
+  }
+
+  function selectPackage(price) {
+    document.querySelectorAll('.pkg-btn').forEach(b => b.classList.remove('selected'));
+    document.getElementById('pkg' + price).classList.add('selected');
+    document.getElementById('totalAmount').textContent = '$' + (parseInt(price) * 4).toLocaleString();
+  }
+
+  document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    if (!email) {
+      alert('Please enter your email address before submitting.');
+      document.getElementById('email').focus();
+      return;
+    }
+
+    const credits = [];
+    for (let i = 1; i <= 5; i++) {
+      const nameEl = document.getElementById('creditName' + i);
+      if (nameEl && nameEl.value.trim()) {
+        credits.push({
+          name: nameEl.value,
+          year: document.getElementById('creditYear' + i)?.value || '',
+          note: document.getElementById('creditNote' + i)?.value || '',
+        });
+      }
+    }
+
+    const data = {
+      email, name: document.getElementById('name').value,
+      updateEmail: document.getElementById('updateEmail').value,
+      phone: document.getElementById('phone').value,
+      address: document.getElementById('address').value,
+      citystatezip: document.getElementById('citystatezip').value,
+      referrals: JSON.stringify(credits),
+      handicap: document.getElementById('handicap')?.value || '',
+      avgScore: document.getElementById('avgScore')?.value || '',
+      partners: document.getElementById('partners')?.value || '',
+      lunch: document.querySelector('input[name="lunch"]:checked')?.value || '',
+      shirt: document.querySelector('input[name="shirt"]:checked')?.value || '',
+      dietary: document.getElementById('dietary')?.value || '',
+      payment: document.querySelector('input[name="payment"]:checked')?.value || '',
+      paymentComments: document.getElementById('paymentComments')?.value || '',
+      foursomePackage: document.querySelector('input[name="foursomePackage"]:checked')?.value || '',
+      p2name: document.getElementById('p2name')?.value || '', p2email: document.getElementById('p2email')?.value || '',
+      p2phone: document.getElementById('p2phone')?.value || '', p2handicap: document.getElementById('p2handicap')?.value || '',
+      p2lunch: document.getElementById('p2lunch')?.value || '', p2shirt: document.querySelector('input[name="p2shirt"]:checked')?.value || '',
+      p2dietary: document.getElementById('p2dietary')?.value || '',
+      p3name: document.getElementById('p3name')?.value || '', p3email: document.getElementById('p3email')?.value || '',
+      p3phone: document.getElementById('p3phone')?.value || '', p3handicap: document.getElementById('p3handicap')?.value || '',
+      p3lunch: document.getElementById('p3lunch')?.value || '', p3shirt: document.querySelector('input[name="p3shirt"]:checked')?.value || '',
+      p3dietary: document.getElementById('p3dietary')?.value || '',
+      p4name: document.getElementById('p4name')?.value || '', p4email: document.getElementById('p4email')?.value || '',
+      p4phone: document.getElementById('p4phone')?.value || '', p4handicap: document.getElementById('p4handicap')?.value || '',
+      p4lunch: document.getElementById('p4lunch')?.value || '', p4shirt: document.querySelector('input[name="p4shirt"]:checked')?.value || '',
+      p4dietary: document.getElementById('p4dietary')?.value || '',
+      sponsorLevel: document.querySelector('input[name="sponsorLevel"]:checked')?.value || '',
+      sponsorName: document.getElementById('sponsorName')?.value || '',
+      sponsorComments: document.getElementById('sponsorComments')?.value || '',
+    };
+
+    const btn = document.querySelector('.btn-submit');
+    btn.textContent = 'Submitting…';
+    btn.disabled = true;
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      btn.textContent = 'Submitted ✓';
+      alert('Thank you for registering! Please ensure your payment is submitted by June 9, 2025.\n\nIf you have any questions, contact the tournament organizers at Torrance High School.');
+      document.getElementById('registrationForm').reset();
+      document.querySelectorAll('.pkg-btn').forEach(b => b.classList.remove('selected'));
+      document.getElementById('creditCardsContainer').innerHTML = '';
+      creditCount = 0;
+      document.getElementById('creditFields').classList.remove('visible');
+    } catch (err) {
+      btn.textContent = 'Submit Registration';
+      btn.disabled = false;
+      alert('Something went wrong. Please try again or contact the tournament organizers directly.');
+    }
+  });
+</script>
+</body>
+</html>
